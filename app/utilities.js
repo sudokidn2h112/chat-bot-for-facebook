@@ -49,18 +49,17 @@ class Ultilities {
     postsToPayloadElements(posts) {
         var payloadElements = posts.map(post => {
             return {
-                title: "Article",
+                title: "Chưa đặt tên ^_^",
                 subtitle: post.title,
                 item_url: post.URL,
                 image_url: post.featured_image,
                 buttons: [{
                     type: "web_url",
                     url: post.URL,
-                    title: "Read this"
+                    title: "Click here to read"
                 }]
             }
         });
-
         return payloadElements;
     }
 
@@ -81,7 +80,6 @@ class Ultilities {
 
         return payloadElements;
     }
-
 }
 
 module.exports = new Ultilities();
