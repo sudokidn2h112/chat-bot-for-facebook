@@ -18,7 +18,9 @@ const PAYLOAD = {
     HELP : 'HELP',
     SEE_CATEGORIES: 'SEE_CATEGORIES',
     GIRL : 'GIRL',
-    GIRL_SEXY : 'GIRL_SEXY'
+    GIRL_SEXY : 'GIRL_SEXY',
+    FOODY : 'FOODY',
+    COFFE : 'COFFE'
 };
 
 const PAGE_TAGS = [{
