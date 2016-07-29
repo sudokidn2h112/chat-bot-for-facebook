@@ -28,7 +28,7 @@ class BotAsync {
         //this._helloFilter = new SimpleFilter(["hi", "halo", "hế nhô", "he lo", "hello", "chào", "xin chào"], "Chào bạn, mềnh là bot tôi đi code dạo ^_^");
 
         this._helloFilter = new ButtonFilter(["hi", "halo", "hế nhô", "he lo", "hello", "chào", "xin chào", "helo", "alo", "ê mày"],
-            "Chào bạn, mềnh là bot tôi đi code dạo ^_^. Bạn thích đọc gì nào?", [{
+            "Chào bạn, mình là KidBot, sống nội tâm-hay khóc thầm và yêu màu hồng ^_^. Bạn thích đọc gì nào?", [{
                 title: "Nâng cao trình độ",
                 type: BUTTON_TYPE.POSTBACK,
                 payload: PAYLOAD.TECHNICAL_POST
@@ -67,12 +67,12 @@ class BotAsync {
                 "ban ten la gi", "ban ten gi", "ban la gi",
                 "bot ten gi", "bot ten la gi", "your name"
             ],
-            "Mình là chat bot Tôi đi code dạo. Viết bởi anh Hoàng đập chai cute <3");
+            "Mình là chat bot KidBot. Viết bởi anh Hoàng đập chai cute,khoai to, củ bự.keke");
         var adInfoFilter = new SimpleFilter(["ad la ai", "hoi ve ad", "ad ten gi", "who is ad",
                 "ad la thằng nào", "thong tin ve ad", "ad dau", "admin",
                 "ai viet ra may", "who made you", "ad la gi", "ad ten la gi"
             ],
-            "Ad là Pham Huy Hoàng, đập chai cute thông minh tinh tế <3. Bạn vào đây xem thêm nhé: https://toidicodedao.com/about/");
+            "Ad là Hoàng Nguyễn, đập chai cute, thông minh, tinh tế, đã thoát cảnh ế nên đừng có mà mê. Hoa đã có chủ là chị Nấm Lùn <3. Bạn vào đây xem thêm nhé: https://facebook.com/SudoKid");
         var thankyouFilter = new SimpleFilter(["cảm ơn", "thank you", "thank", "nice", "hay qua",
             "gioi qua", "good job", "hay nhi", "hay ghe"
         ], "Không có chi. Rất vui vì đã giúp được cho bạn ^_^");
@@ -81,9 +81,20 @@ class BotAsync {
         var chuiLonFilter = new SimpleFilter(["dm", "dmm", "đậu xanh", "rau má", "dcm", "vkl", "vl", "du me", "may bi dien",
                 "bố láo", "ngu the", "me may", "ccmm", "ccmn", "bot ngu", "đờ mờ", "fuck", "fuck you"
             ],
-            "Bot là người nhân hậu, không chửi thề. Cút ngay không bố đập vỡ cmn ass bây giờ :v!");
+            "Bot là người nhân hậu, éo chửi thề. Cút ngay không bố tát xéo háng bây giờ :v!");
         var testFilter = new SimpleFilter(["test"],
             "Đừng test nữa, mấy hôm nay người ta test nhiều quá bot mệt lắm rồi :'(");
+        var bbFilter = new  SimpleFilter(["bb", "pp", "classic", "q10", "q20","q5","blackberry","9000","9700","9900","9780","8700","8820",
+        "z10","z30","passpaort","dâu đen"],"Bạn có thể tham khảo thông tin và giá cả ở link bên dưới:\n http://mobigo.vn");
+        var foodFilter = new ButtonFilter(["ăn gì","có món gì ngon","có món nào ngon","đói quá","đồ ăn","uống gì","nước gì", "khát nước", "cô hi","cohi","cafe","coffe"],'Bạn có thể tìm được món ăn ngon, rẻ mà éo biết có bổ không ở link bên dưới.keke: \n http://www.foody.vn/da-nang hoặc link bên dưới:\n https://www.facebook.com/FoodyDaNang/?fref=ts\n',[{
+            title: "Món ăn ngon Đà thành",
+            type: BUTTON_TYPE.POSTBACK,
+            payload: PAYLOAD.FOODY 
+        },{  
+            title: "Quán Cafe View Đẹp",
+            type: BUTTON_TYPE.POSTBACK,
+            payload: PAYLOAD.COFFE
+        }]);    
         this._goodbyeFilter = new SimpleFilter(["tạm biệt", "bye", "bai bai", "good bye"], "Tạm biệt, hẹn gặp lại ;)");
 
         this._filters = [new SpamFilter(),
@@ -91,13 +102,13 @@ class BotAsync {
             girlFilter, sexyGirlFilter, javGirlFilter, bikiniGirlFilter,
             adInfoFilter, botInfoFilter, categoryFilter,
             chuiLonFilter, thankyouFilter, helpFilter,
-            this._goodbyeFilter, this._helloFilter, testFilter, new EndFilter()
+            this._goodbyeFilter, this._helloFilter, testFilter,bbFilter,foodFilter, new EndFilter()
         ];
     }
 
     setSender(sender) {
-        this._helloFilter.setOutput(`Chào ${sender.first_name}, mềnh là bot tôi đi code dạo ^_^. Bạn thích đọc gì nào?`);
-        this._goodbyeFilter.setOutput(`Tạm biệt ${sender.first_name}, hẹn gặp lại ;)`);
+        this._helloFilter.setOutput(`Chào ${sender.first_name} ${sender.last_name}, mình là KidBot, sống nội tâm-hay khóc thầm và yêu màu hồng ^_^. Bạn thích đọc gì nào?`);
+        this._goodbyeFilter.setOutput(`Tạm biệt ${sender.first_name} ${sender.last_name}, hẹn gặp lại ;)`);
     }
 
     chat(input) {
@@ -122,7 +133,7 @@ class BotAsync {
                     break;
                 case BOT_REPLY_TYPE.POST:
                     if (output.length > 0) {
-                        fbAPI.sendTextMessage(senderId, "Bạn xem thử mấy bài này nhé ;)");
+                        fbAPI.sendTextMessage(senderId, "Bạn xem thử mấy bài này nhé ;)\n");
                         fbAPI.sendGenericMessage(senderId, ulti.postsToPayloadElements(output));
                     }
                     else {
@@ -138,7 +149,7 @@ class BotAsync {
                     fbAPI.sendButtonMessage(senderId, output, buttons);
                     break;
                 case BOT_REPLY_TYPE.IMAGE:
-                    fbAPI.sendTextMessage(senderId, "Đợi tí có liền, đồ dại gái hà ^^");
+                    fbAPI.sendTextMessage(senderId, "Đợi tí có liền, đồ dại gái hà, giống mình voãi ra. hà hà");
                     fbAPI.sendImage(senderId, output);
                     break;
                 default:
@@ -183,6 +194,12 @@ class BotAsync {
                     break;
                 case PAYLOAD.GIRL:
                     this.reply(senderId, "@girl");
+                    break;
+                case PAYLOAD.FOODY:
+                    this.reply(senderId, "{foody}");
+                    break;
+                case PAYLOAD.COFFE:
+                    this.reply(senderId, "{coffe}");
                     break;
                 default:
                     console.log("Unknown payload: " + payload);
