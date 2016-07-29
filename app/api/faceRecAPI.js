@@ -7,10 +7,10 @@ var googleAPI = require("./googleAPI");
 
 class FaceRecAPI {
     constructor() {
-        this._faceKey = process.env.MS_FACE_TOKEN || atob("MmRhZTA1OWQ2NTNmNDdhZGE0NmJlMWJlZTE1ZjUxYzk=");
+        this._faceKey = "20740d5a6f1347618226a89a5e10bcea";
         this._faceApiUrl = "https://api.projectoxford.ai/emotion/v1.0/recognize";
 
-        this._analyzeKey = "162dcb4df892426e85d61a12c54f1719";
+        this._analyzeKey = "1472f88d29cc483eb91e0d14a2d1e6a0";
         this._analyzeApiUrl = "https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=ImageType,Description";
 
     }
@@ -53,10 +53,10 @@ class FaceRecAPI {
                     var mainEmo = _.max(faceEmos, emo => emo[1])[0];
 
                     var emoReply = {
-                        "anger": "Bình tĩnh bình tĩnh. Thằng nào chọc giận anh thế...",
+                        "anger": "Bình tĩnh bình tĩnh. Thằng nào chọc giận anh thế?",
                         "fear": "Mói xem phim mà xong à, nhìn mặt sợ vãi hà",
-                        "happiness": "Có gì vui mà nhìn mặt phởn phơ thế, kể nghe với",
-                        "neutral": "Mặt lạnh như tiền vô cảm xúc.",
+                        "happiness": "Có gì vui mà cừ nham nhở zậy, kể nghe với!",
+                        "neutral": "Mặt lạnh như vừa bị mất xô gạo.",
                         "contempt": "Nhìn mặt có vẻ cay cú vkl",
                         "disgust": "Nhìn cái mặt là biết số nhọ rồi, tội...",
                         "sadness": "Có gì buồn vậy, tập sự em nghe nào...",
