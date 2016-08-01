@@ -72,7 +72,7 @@ class BotAsync {
                 "ad la thằng nào", "thong tin ve ad", "ad dau", "admin",
                 "ai viet ra may", "who made you", "ad la gi", "ad ten la gi"
             ],
-            "Ad là Hoàng Nguyễn, đập chai cute, thông minh, tinh tế, đã thoát cảnh ế nên đừng có mà mê. Hoa đã có chủ là chị Nấm Lùn <3. Bạn vào đây xem thêm nhé: https://facebook.com/SudoKid");
+            "Ad là Hoàng Nguyễn, đập chai cute, thông minh, tinh tế =)). Bạn vào đây xem thêm nhé: https://facebook.com/SudoKid");
         var thankyouFilter = new SimpleFilter(["cảm ơn", "thank you", "thank", "nice", "hay qua",
             "gioi qua", "good job", "hay nhi", "hay ghe"
         ], "Không có chi. Rất vui vì đã giúp được cho bạn ^_^");
