@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
 var server = http.createServer(app);
 
 app.get('/', (req, res) => {
-  res.send("Home page. Server running okay.");
+  res.send("Home page. Server running okie.");
 });
 
 app.get('/webhook', function(req, res) {
