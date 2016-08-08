@@ -20,7 +20,12 @@ const PAYLOAD = {
     GIRL : 'GIRL',
     GIRL_SEXY : 'GIRL_SEXY',
     FOODY : 'FOODY',
-    COFFE : 'COFFE'
+    COFFE : 'COFFEE',
+    BLACKBERRY : 'BB',
+    HILL    : 'HILL',
+    STREAM : 'STREAM',
+    VILLAGE : 'VILLAGE'
+
 };
 
 const PAGE_TAGS = [{
