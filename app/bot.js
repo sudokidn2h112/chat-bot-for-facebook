@@ -84,9 +84,13 @@ class BotAsync {
             "Bot là người nhân hậu, éo chửi thề. Cút ngay không bố tát xéo háng bây giờ :v!");
         var testFilter = new SimpleFilter(["test"],
             "Đừng test nữa, mấy hôm nay người ta test nhiều quá bot mệt lắm rồi :'(");
-        var bbFilter = new  SimpleFilter(["bb", "pp", "classic", "q10", "q20","q5","blackberry","9000","9700","9900","9780","8700","8820",
-        "z10","z30","passpaort","dâu đen"],"Bạn có thể tham khảo thông tin và giá cả ở link bên dưới:\n http://mobigo.vn");
-        var foodFilter = new ButtonFilter(["ăn gì","có món gì ngon","có món nào ngon","đói quá","đồ ăn","uống gì","nước gì", "khát nước", "cô hi","cohi","cafe","coffe"],'Bạn có thể tìm được món ăn ngon, rẻ mà éo biết có bổ không ở link bên dưới.keke: \n http://www.foody.vn/da-nang hoặc link bên dưới:\n https://www.facebook.com/FoodyDaNang/?fref=ts\n',[{
+        var bbFilter = new  ButtonFilter(["bb", "pp", "classic", "q10", "q20","q5","blackberry","9000","9700","9900","9780","8700","8820",
+        "z10","z30","passpaort","dâu đen"],'Chào mừng bạn đến với thế giới của Dâu Đen!',[{
+            title: "BBDaNang",
+            type: BUTTON_TYPE.POSTBACK,
+            payload: PAYLOAD.BLACKBERRY 
+        }]);
+        var foodFilter = new ButtonFilter(["ăn gì","có món gì ngon","có món nào ngon","đói quá","đồ ăn","uống gì","nước gì", "khát nước", "cô hi","cohi","cafe","coffe"],'Mời chọn link bên dưới để xem chi tiết ^^',[{
             title: "Món ăn ngon Đà thành",
             type: BUTTON_TYPE.POSTBACK,
             payload: PAYLOAD.FOODY 
@@ -94,7 +98,20 @@ class BotAsync {
             title: "Quán Cafe View Đẹp",
             type: BUTTON_TYPE.POSTBACK,
             payload: PAYLOAD.COFFE
-        }]);    
+        }]);
+        var tourFilter = new ButtonFilter(["đi đâu","cảnh đẹp","du lịch","check in","tour","bà nà","suối thần tài", 'suối nước nóng', 'tắm bùn', 'tắm khoáng'],'Mời chọn địa điểm bạn quan tâm!',[{
+            title: "Bà Nà Hill",
+            type: BUTTON_TYPE.POSTBACK,
+            payload: PAYLOAD.HILL 
+        },{  
+            title: "Suối Thần Tài",
+            type: BUTTON_TYPE.POSTBACK,
+            payload: PAYLOAD.STREAM
+        },{  
+            title: "Làng Vân",
+            type: BUTTON_TYPE.POSTBACK,
+            payload: PAYLOAD.VILLAGE
+        }]);
         this._goodbyeFilter = new SimpleFilter(["tạm biệt", "bye", "bai bai", "good bye"], "Tạm biệt, hẹn gặp lại ;)");
 
         this._filters = [new SpamFilter(),
@@ -102,7 +119,7 @@ class BotAsync {
             girlFilter, sexyGirlFilter, javGirlFilter, bikiniGirlFilter,
             adInfoFilter, botInfoFilter, categoryFilter,
             chuiLonFilter, thankyouFilter, helpFilter,
-            this._goodbyeFilter, this._helloFilter, testFilter,bbFilter,foodFilter, new EndFilter()
+            this._goodbyeFilter, this._helloFilter, testFilter,bbFilter,foodFilter, tourFilter, new EndFilter()
         ];
     }
 
@@ -120,11 +137,10 @@ class BotAsync {
         }
     }
 
-    reply(senderId, textInput) {
+    reply(senderId, textInput, payload) {
         async(() => {
             var sender = await (fbAPI.getSenderName(senderId));
             this.setSender(sender);
-
             var botReply = await (this.chat(textInput));
             var output = botReply.output;
             switch (botReply.type) {
@@ -136,8 +152,36 @@ class BotAsync {
                         fbAPI.sendTextMessage(senderId, "Bạn xem thử mấy bài này nhé ;)\n");
                         fbAPI.sendGenericMessage(senderId, ulti.postsToPayloadElements(output));
                     }
-                    else {
-                        fbAPI.sendTextMessage(senderId, "Xin lỗi mình không tim được bài nào ;)");
+                    else{
+                        switch (payload) {
+                            case 'FOODY':
+                                fbAPI.sendTextMessage(senderId,"Những món ăn ngon ở Đà thành dành cho bạn đây ^^");
+                                fbAPI.sendFindFood(senderId);
+                                break;
+                            case 'COFFEE':
+                                fbAPI.sendTextMessage(senderId,"Những quán Coffee lý tưởng cho những bạn muốn có không gian yên tĩnh, view đẹp cho việc tự sướng đây :D");
+                                fbAPI.sendFindCf(senderId);
+                                break;
+                            case 'BB':
+                                fbAPI.sendTextMessage(senderId,"Vui lòng click link bên dưới để xem thông tin chi tiết vể dâu đen! ;)");
+                                fbAPI.sendBb(senderId);
+                                break;
+                             case 'HILL':
+                                fbAPI.sendTextMessage(senderId,"Bà Nà Hill Welcome! ;)");
+                                fbAPI.sendHill(senderId);
+                                break;
+                             case 'STREAM':
+                                fbAPI.sendTextMessage(senderId,"Suối Thần Tài Welcome! ;)");
+                                fbAPI.sendStream(senderId);
+                                break;
+                             case 'VILLAGE':
+                                fbAPI.sendTextMessage(senderId,"Làng Vân Welcome! ;)");
+                                fbAPI.sendVillage(senderId);
+                                break;    
+                             
+                            default:
+                        fbAPI.sendTextMessage(senderId, "Xin lỗi mình không tìm được thông tin theo yêu cầu của bạn, mình sẽ hoàn thiện trong thời gian sớm nhất.");
+                        }   
                     }
                     break;
                 case BOT_REPLY_TYPE.VIDEOS:
@@ -176,30 +220,42 @@ class BotAsync {
         async(() => {
             var sender = await (fbAPI.getSenderName(senderId));
             this.setSender(sender);
-            switch (payload) {
+            switch (payload) { 
                 case PAYLOAD.TECHNICAL_POST:
-                    this.reply(senderId, "{coding}");
+                    this.reply(senderId, "{coding}",payload);
                     break;
                 case PAYLOAD.CAREER_POST:
-                    this.reply(senderId, "{nghe nghiep}");
+                    this.reply(senderId, "{nghe nghiep}",payload);
                     break;
                 case PAYLOAD.GENERIC_POST:
-                    this.reply(senderId, "{linh tinh}");
+                    this.reply(senderId, "{linh tinh},",payload);
                     break;
                 case PAYLOAD.SEE_CATEGORIES:
-                    this.reply(senderId, "hello");
+                    this.reply(senderId, "hello",payload);
                     break;
                 case PAYLOAD.HELP:
-                    this.reply(senderId, "-help");
+                    this.reply(senderId, "-help",payload);
                     break;
                 case PAYLOAD.GIRL:
-                    this.reply(senderId, "@girl");
+                    this.reply(senderId, "@girl",payload);
                     break;
                 case PAYLOAD.FOODY:
-                    this.reply(senderId, "{foody}");
+                    this.reply(senderId, "{--foody}",payload);
                     break;
                 case PAYLOAD.COFFE:
-                    this.reply(senderId, "{coffe}");
+                    this.reply(senderId, "{.coffe}",payload);
+                    break;
+                case PAYLOAD.BLACKBERRY:
+                    this.reply(senderId, "{_blackberry}",payload);
+                    break; 
+                case PAYLOAD.HILL:
+                    this.reply(senderId, "{hill--}",payload);
+                    break;
+                case PAYLOAD.STREAM :
+                    this.reply(senderId, "{_stream_}",payload);
+                    break;
+                case PAYLOAD.VILLAGE :
+                    this.reply(senderId, "{.village.}",payload);
                     break;
                 default:
                     console.log("Unknown payload: " + payload);
@@ -209,3 +265,4 @@ class BotAsync {
 }
 
 module.exports = new BotAsync();
+
